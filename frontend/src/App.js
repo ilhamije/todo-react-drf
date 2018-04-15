@@ -1,72 +1,77 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <h1 className="App-title">Welcome to React</h1>
-//         </header>
-//         <p className="App-intro">
-//           To get started, edit <code>src/App.js</code> and save to reload.
-//         </p>
-//       </div>
-//     );
-//   }
-// }
-
-const list = [
-  {
-    'id': 1,
-    'title': '1st Item',
-    'description': 'Description here.'
-  },
-  {
-    'id': 2,
-    'title': '2nd Item',
-    'description': 'Another description here.'
-  },
-  {
-    'id': 3,
-    'title': '3rd Item',
-    'description': 'Third description here.'
-  }
-];
+import React, { Component } from "react";
+import List from "./List";
+import AddListItem from "./AddListItem";
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { list };
-  // }
+  constructor() {
+    super();
 
-  state = {
-    todos: []
-  };
+    this.state = {
+      list: {}
+    };
+
+    this.removeListItem = this.removeListItem.bind(this);
+    this.removeAllListItems = this.removeAllListItems.bind(this);
+    this.addListItem = this.addListItem.bind(this);
+  }
 
   async componentDidMount() {
     try {
       const res = await fetch('http://localhost:8000/api/');
-      const todos = await res.json();
+      const list = await res.json();
       this.setState({
-        todos
+        list
       });
     } catch (e) {
       console.log(e);
     }
   }
 
+  updateList(list) {
+    this.setState({
+      list,
+    });
+  }
+
+  addListItem(item) {
+    const { list } = this.state;
+
+    list[item.id] = item;
+
+    this.updateList(list);
+  }
+
+  removeListItem(itemId) {
+    const { list } = this.state;
+
+    delete list[itemId];
+
+    this.updateList(list);
+  }
+
+  removeAllListItems() {
+    this.updateList({});
+  }
+
+
+
   render() {
+    const items = this.state.list;
+
     return (
-      <div>
-        {this.state.todos.map(item => (
-          <div key={item.id}>
-            <h3>{item.title}</h3>
-            <span>{item.description}</span>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-6">
+            <List
+              items={items}
+              removeListItem={this.removeListItem}
+              removeAllListItems={this.removeAllListItems}
+            />
           </div>
-        ))}
+          <div className="col-sm-6">
+            <AddListItem addListItem={this.addListItem} />
+          </div>
+        </div>
       </div>
     );
   }
