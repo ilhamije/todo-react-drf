@@ -7,7 +7,7 @@ class App extends Component {
     super();
 
     this.state = {
-      list: {}
+      list: [],
     };
 
     this.removeListItem = this.removeListItem.bind(this);
@@ -27,30 +27,30 @@ class App extends Component {
     }
   }
 
-  updateList(list) {
-    this.setState({
-      list,
-    });
-  }
+  // updateList(list) {
+  //   this.setState({
+  //     list,
+  //   });
+  // }
 
   addListItem(item) {
     const { list } = this.state;
 
     list[item.id] = item;
 
-    this.updateList(list);
+    // this.updateList(list);
   }
 
   removeListItem(itemId) {
     const { list } = this.state;
 
-    delete list[itemId];
+    // delete list[itemId];
 
-    this.updateList(list);
+    // this.updateList(list);
   }
 
   removeAllListItems() {
-    this.updateList({});
+    // this.updateList({});
   }
 
 
@@ -65,8 +65,7 @@ class App extends Component {
             <List
               items={items}
               removeListItem={this.removeListItem}
-              removeAllListItems={this.removeAllListItems}
-            />
+              removeAllListItems={this.removeAllListItems} />
           </div>
           <div className="col-sm-6">
             <AddListItem addListItem={this.addListItem} />

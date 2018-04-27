@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import ListItemDescription from './ListItemDescription';
+import axios from "axios";
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.withCredentials = true;
 
 class ListItem extends Component {
   handleSubmit = event => {
@@ -8,8 +13,15 @@ class ListItem extends Component {
 
     const { removeListItem } = this.props;
     const listItemId = this.props.item.id;
+    console.log('listItemId: ',listItemId);
 
-    removeListItem(listItemId);
+    const URL = "http://localhost:8000/api/"+listItemId+"/";
+    axios.delete(URL)
+    .then(res => {
+      removeListItem(listItemId);
+      console.log(res);
+      console.log(res.data);
+    });
   }
 
   render() {

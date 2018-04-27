@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import uuid from 'uuid/v4';
+// import uuid from 'uuid/v4';
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -16,7 +16,7 @@ class AddListItem extends Component {
     event.preventDefault();
 
     const item = {
-      id: uuid.v4(),
+      // id: uuid.v4(),
       title: this.listItemTitle.value.trim(),
       description: this.listItemDescription.value.trim(),
     };
@@ -25,7 +25,7 @@ class AddListItem extends Component {
     axios
       .post("http://localhost:8000/api/", item)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         console.log(res.data);
         this.props.addListItem(item);
       })
@@ -33,18 +33,12 @@ class AddListItem extends Component {
         console.log("Post error", err.response);
       });
 
-    // const item = {
-    //   // id: uuid.v4(),
-    //   title: this.listItemTitle.value.trim(),
-    //   description: this.ListItemDescription.value.trim(),
-    // };
-
-    // this.props.addListItem(item);
+    this.refs.addform.reset();
   };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmitEvent}>
+      <form onSubmit={this.handleSubmitEvent} ref="addform">
         <h3 className="page-header">Add new item</h3>
 
         <div className="form-group">

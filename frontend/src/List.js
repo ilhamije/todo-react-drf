@@ -23,7 +23,7 @@ class List extends Component {
       .getListOfItemIds(items)
       .map(itemId =>{
         item = items[itemId];
-        return (<ListItem item={item} removeListItem={removeListItem} key={item.id} />);
+        return (<ListItem item={item} removeListItem={removeListItem} key={itemId} />);
       })
       .reverse()
     );
@@ -51,9 +51,9 @@ class List extends Component {
 }
 
 List.propTypes = {
-  removeListItem: PropTypes.func.isRequired,
-  removeAllListItems: PropTypes.func.isRequired,
-  items: PropTypes.array.isRequired,
+    removeListItem: PropTypes.func.isRequired,
+    removeAllListItems: PropTypes.func.isRequired,
+    items: PropTypes.array.isRequired,
 };
 
 export default List;
